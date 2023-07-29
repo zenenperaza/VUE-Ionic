@@ -1,41 +1,48 @@
 <template>
-
-  <ion-page >
+  <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>GRID Example</ion-title>
+        <ion-title>Capasitor plugins</ion-title>
       </ion-toolbar>
-       
+
     </ion-header>
-    <ion-content class="ion-padding"> 
-      
-      <ion-grid>
-        <ion-row>
-          <ion-col size="12" class="full">Hello world full with</ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6" size-xs="12" size-md="12" size-lg="6"  class="mid">50%</ion-col>
-          <ion-col size="6"  size-xs="12" size-md="12" size-lg="6" class="mid2">50%</ion-col>
-        </ion-row>
-      </ion-grid>
+    <ion-content class="ion-padding">
+
+<img :src="imageUrl" alt="">
+<button v-on:click="makePhoto">Take Photo</button>
 
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts" setup>
-  import { IonContent, IonHeader, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { ref } from 'vue';
 
+const imageUrl = ref()
+
+const makePhoto = async () => {
+  const image = await Camera.getPhoto({
+    quality: 90,
+    allowEditing: true,
+    resultType: CameraResultType.Uri
+  });
+
+  imageUrl.value = image.webPath;
+};
 
 
 </script>
 <style scoped>
-.full{
+.full {
   background-color: aqua;
 }
+
 .mid {
   background-color: blueviolet;
 }
+
 .mid2 {
   background-color: red;
 }
